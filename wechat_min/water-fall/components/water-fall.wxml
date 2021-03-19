@@ -1,0 +1,12 @@
+<scroll-view id="wrapper" scroll-into-view="{{scrollIntoId}}" class="wrapper" scroll-y="{{ableScroll}}"
+  lower-threshold='100' bindscrolltolower="loadMore" bindscroll="onSrcoll"
+  style="height:{{curList&&curList.length==0?'60vh':(ableScroll?wrapperHeight+'px':'auto')}}">
+  <view style="height:{{listMaxHeight}}rpx" class="water-fall-wrapper" wx:if="{{curList&&curList.length>0}}">
+    <view class="fall-card" wx:for="{{curList}}" wx:key="uuid" style="top:{{item.top}}rpx;left:{{item.left}}rpx;">
+      <view style="height:{{item.height}}rpx;background-color:{{item.color}}">{{item.id}}</view>
+    </view>
+  </view>
+  <view class="text-center tips" wx:if="{{showLoading}}">加载中...</view>
+  <view class="text-center tips" wx:if="{{!hasMore&&curList&&curList.length>0}}">----- 我是有底线的 ------</view>
+  <view id="bottom"></view>
+</scroll-view>

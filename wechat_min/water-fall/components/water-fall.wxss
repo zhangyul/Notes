@@ -1,0 +1,22 @@
+.wrapper {
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  /* height: 80vh; */
+}
+
+.water-fall-wrapper {
+  position: relative;
+}
+
+.fall-card {
+  position: absolute;
+}
+
+.fall-card {
+  text-align: center;
+  width: 343rpx;
+}
+
+.text-center {
+  text-align: center;
+}
