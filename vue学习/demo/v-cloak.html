@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>v-cloak</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        /* [v-cloak]::before {
+            content: '加载中...';
+        } */
+
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <p v-cloak>{{message}}</p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            message: "v-cloak"
+        }
+    })
+</script>
+
+</html>

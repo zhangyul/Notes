@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>v-cloak</title>
+    <style>
+
+
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <p v-cloak>++{{message}}</p>
+        <!-- v-text可替换{{}},无闪烁问题，但会覆盖元素本身内容   -->
+        <p v-text="message"></p>
+        <!-- {{}},v-text 均不会解析html，所接收到的值均当作文本输出 -->
+        <!-- v-html可解析html标签 -->
+        <p v-html="message2"></p>
+        <!-- v-bind: 绑定属性 可简写为:-->
+        <!-- v-on: 绑定事件 可简写为@-->
+        <button v-bind:title="mytitle+` hh`" v-on:click="show">按钮</button>
+        <button :title="mytitle+` hh`" @click="show">按钮</button>
+        <!-- .self 和 .stop 的区别 -->
+        <div @click="divOutHandler" style="width:400px;height: 200px;background-color: bisque;">
+            <div @click="divHandler" style="width:300px;height: 100px;background-color: brown;">
+                <button :title="mytitle+` hh`" @click.stop="show">按钮</button>
+            </div>
+        </div>
+        <div @click="divOutHandler" style="width:400px;height: 200px;background-color: bisque;">
+            <div @click.self="divHandler" style="width:300px;height: 100px;background-color: brown;">
+                <button :title="mytitle+` hh`" @click="show">按钮</button>
+            </div>
+        </div>
+        <input v-model="message" type="text" />
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: "#app",
+        data: {
+            message: "hello，vue",
+            message2: "<h2>hello，vue</h2>",
+            mytitle: "button标题"
+        },
+        // 定义vue实例中可用方法
+        methods: {
+            show: function () {
+                console.log("我是按钮");
+                // alert(this.message);
+            },
+            divHandler() {
+                console.log("我是内层div");
+            },
+            divOutHandler() {
+                console.log("我是最外层div");
+            }
+        }
+    })
+</script>
+
+</html>
