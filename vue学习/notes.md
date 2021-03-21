@@ -107,3 +107,137 @@ Vue.directive('focus', {
 // 在bind和update上做重复工作
 Vue.directive('focus', function(){})
 ```
+
+#### 生命周期  
+![](https://cn.vuejs.org/images/lifecycle.png)  
+`beforeCreate(){}`实例还未创建此时，data和methods还未被初始化  
+`created(){}`data和methods已被初始化  
+`beforeMount`之前`created`后，开始编译模版，执行vue中代码，最终在内存中形成一个编译好的模版字符串，将模版渲染渲染为内存中的DOM，并未挂在到页面中    
+`beforeMount(){}`模版已经在内存中编译完成，但并未渲染到页面中，页面中元素还未替换，只是模版字符串  
+`mounted(){}`将模版挂载到页面中，页面已渲染完成,操作DOM最早在这里操作。此时组件已脱离创建阶段，进入到运行阶段      
+当数据发生改变执行`beforeUpdate`和`updated`  
+`beforeUpdate(){}`数据为最新数据，页面未渲染  
+`updated(){}`页面已渲染为最新数据    
+`beforeDestory(){}`还未进入销毁状态，所有数据函数等均可用  
+`destoryed`所有组件和数据等均已销毁
+
+#### vue中数据请求 vue-resource 
+`this.$http.get`
+
+#### vue 组件
+组件指向的模版必须包含在一个标签中  
+1. `Vue.extend`创建全局组件 
+   ```js
+   var 组件模版对象 = Vue.extend({
+       template:'<h3>组件模版</h3>',
+       // 组件可以有自己data，但必须为一个返回对象的方法，使用和实例中的使用方法相同
+       data:function(){
+           return {};
+       }，
+       methods:{
+           // 组件方法
+           a(){}
+       }
+   })
+   Vue.component(组件名称,组件模版对象);
+   // 引用组件,若组件名称驼峰命名需要用，大写字母换为-小写字母
+   <组件名称></组件名称>
+   ```
+2. `Vue.component`创建全局组件 
+   ```js
+    Vue.component(组件名称,{
+       template:'<h3>组件模版</h3>'
+   });
+    // 引用组件,若组件名称驼峰命名需要用，大写字母换为-小写字母
+   <组件名称></组件名称>
+   ```
+3. 通过`<template>`在外部定义，创建全局组件  
+   ```html
+   <div id="app"></div>
+   <!-- 在控制器之外定义template -->
+   <template id="tmp"></template>
+    <script>
+        Vue.component(组件名称,{
+            template:'#tmp'
+        });
+    </script>
+   ```
+4. 在`component(){}`创建局部组件  
+   ```js
+   new Vue({
+       components(){
+           a:{
+               template:'<h3>私有组件</h3>'
+           },
+           b:{
+              template:'#tmp'
+           }
+       }
+    })    
+   ```  
+组件切换  
+1. 使用`v-if` `v-else`
+2. `<component :is="'组件名称'"></component>` component为占位符   
+
+父组件向子组件传值，方法  
+1. 引用子组件时通过属性绑定传值`v-bind:`
+2. 通过事件绑定机制为子组件传递方法`v-on`
+   ```html
+   <script>
+   var a = Vue.extend({
+       template:'<h3>{{data}}</h3>',
+       // 组件可以有自己data，但必须为一个返回对象的方法，使用和实例中的使用方法相同
+       data:function(){
+           return {};
+       }，
+       methods:{
+           // 组件方法
+           myFun(){
+               // 调用父组件传递进来的方法，emit为触发，类似小程序this.triggerEvent()
+               this.$emit('func','传参1','传参2',...);
+           }
+       },
+       // 接收父组件传值 
+       props:['data']
+   })
+   Vue.component(test,a);
+   </script>
+   <test v-bind:data='message' v-on:func="show"></test>
+   ```
+
+使用ref获取DOM`this.$efs.`   
+
+#### 路由
+```html
+<div id="app">
+    <!-- 去往指定页面 Link -->
+    <router-link to="/" tag="渲染的标签，默认为a">home</router-link>
+    <!-- 将路由规则匹配到的组件展示到页面中 -->
+    <router-view></router-view>
+</div>
+ <script>
+    // 创建路由对象
+    var routerObj = new VueRouter({
+        // 路由匹配规则,routes多个匹配规则
+        routes: [
+            {
+                path: "监听路由链接地址",
+                redirect: "/链接"
+                // 重定向到指定hash
+            },
+            {
+                path: "监听路由链接地址",
+                component: "展示页面"
+            }
+        ],
+        linkActiveClass: "链接激活时class类名"
+    })
+    var vue = new Vue({
+        // 将路由规则注册到vm实例上
+        router: routerObj
+    })
+</script>
+```
+路由规则中定义参数  
+get 方法传参不需要修改 path 属性,通过`this.$route.query`获取参数   
+params 方式传参 path 中定义/:参数名,通过`this.$route.params`获取参数

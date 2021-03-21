@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>v-cloak</title>
+    <style>
+
+
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.2"></script>
+
+<script>
+    var vue = new Vue({
+        el: "#app",
+        data: {
+
+        },
+        // 定义vue实例中可用方法
+        methods: {
+            getColumns: function () {
+                // 发起get请求
+                //解决跨域问题  res.setHeader("Access-Control-Allow-Origin", "*")
+                this.$http.get('https://zhuanlan.zhihu.com/api/columns/c_115456814', {
+
+                }).then(r => {
+                    console.log(r)
+                })
+            }
+        },
+        mounted() {
+            this.getColumns();
+        }
+    })
+</script>
+
+</html>
