@@ -241,3 +241,12 @@ Vue.directive('focus', function(){})
 路由规则中定义参数  
 get 方法传参不需要修改 path 属性,通过`this.$route.query`获取参数   
 params 方式传参 path 中定义/:参数名,通过`this.$route.params`获取参数
+
+```js
+    new Vue({
+        render:function(createElements){// createElements function,将指定模版渲染成html
+           return (createElements('组件模版'))
+           // return 替换容器
+        }
+    })
+```
