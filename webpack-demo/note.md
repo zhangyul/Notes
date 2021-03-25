@@ -9,7 +9,13 @@
   }, // 自定义脚本命令功能
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},// 生产环境所需依赖
+  "devDependencies": {
+  },// 开发环境所需依赖
+  "babel":{// 添加规则或通过.babelrc来添加编译规则,babel优先查找.babelrc文件
+    "presets":["@babel/preset-env"]
+  }
 }
 
 ```

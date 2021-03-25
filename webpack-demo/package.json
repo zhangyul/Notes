@@ -5,18 +5,25 @@
   "main": "webpack.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-sever",
-    "build": "eslint ./src & webpack"
+    "dev": "webpack  --mode development",
+    "build": "webpack  --mode production",
+    "start": "webpack-dev-server --mode development --open "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.1.4",
+    "html-webpack-plugin": "4.0.0-alpha",
     "style-loader": "^2.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.3",
+    "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   }
