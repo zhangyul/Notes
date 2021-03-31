@@ -1,4 +1,4 @@
-```json
+```js
 {
   "name": "webpack", // 包名
   "version": "1.0.0", // 版本号
