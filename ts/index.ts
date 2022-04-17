@@ -151,3 +151,219 @@ let any
 console.log(typeof 'Hello Ts')
 let pp = { x: 1, y: 2 };
 function fo(point: typeof p) { }
+
+/** 高级类型
+ * 
+ */
+
+// class
+class Person3 {
+    age: number
+    name = 'zhangsan'
+    // 构造函数
+    constructor(age: number, name?: string) {
+        this.age = age
+        this.name = name
+    }
+    // 实例方法
+    setName(name: string) {
+        this.name = name
+    }
+}
+const p3 = new Person3(27, 'zhangyuling')
+console.log(p.name)
+p3.setName('zhang')
+console.log(p.name)
+/**
+ * class继承
+ * 1. extends   继承父类
+ * 2. implements    实现接口【TS提供的】
+ */
+// extends
+class My extends Person3 { }
+const m = new My(27)
+m.setName('li')
+// implements 使类实现定义的接口，类中必须提供接口定义的接口
+interface Singable {
+    name: string
+    sing(): void
+}
+class Person4 implements Singable {
+    name = '那时的我，现在的我'
+    sing() {
+        console.log('那时的我总以为等不到现在~')
+    }
+}
+
+/** 类成员可见性
+ * 可见性修饰符 public / protected / private
+ *  */
+class Person5 {
+    age: number
+    name = 'zhangsan'
+    phone: number
+    // 实例方法
+    public setName(name: string) {
+        this.name = name
+    }
+    // 类/子类中可见，实例对象无法访问
+    protected setPhone(phone: number) {
+        this.phone = phone
+    }
+    private setAge(age: number) {
+        this.age = age
+    }
+}
+class You extends Person5 {
+    setYouPhone() {
+        this.setPhone(15110779740)
+        //   this.setAge() 无法访问到
+    }
+}
+const you = new You()
+you.setName('zhang')
+// you.setPhone() 无法访问到
+
+// readonly修饰符 只读属性，不可以修饰函数
+class Person6 {
+    // 允许设置默认值，和constructor时设置初始值
+    readonly age: number = 18
+    constructor(age: number) {
+        this.age = age
+    }
+    setAge(age: number) {
+        // this.age = age 会报错
+    }
+}
+// 可以修饰接口
+interface IPerson3 {
+    readonly name: string
+}
+let obj2: IPerson3 = { name: 'zhang' }
+// obj2.name='' 报错
+
+// 可以修饰{}类型
+let obj3: { readonly name: string } = { name: 'zhang' }
+// obj3.name='' 报错
+
+/**
+ * 类型兼容性
+ * 两种类型系统：1 Structural Type System（结构化类型系统） 2 Nominal Type System（标明类型系统）。
+ * TS 采用的是结构化类型系统，也叫做 duck typing（鸭子类型），类型检查关注的是值所具有的形
+ * 也就是说，在结构类型系统中，如果两个对象具有相同的形状，则认为它们属于同一类型
+ */
+let arr = ['a', 'b']
+arr.forEach(item => { })
+arr.forEach((item, index) => { })
+
+class P1 {
+    x: number
+}
+class P2 {
+    x: number
+    y: number
+}
+const p4: P1 = new P2() // Nominal Type System 无法此种操作
+// 成员多兼容成员少
+
+// 接口兼容性
+interface P3 { x: number }
+interface P4 { x: number, y: number }
+let p6: P4
+let p5: P3 = p6
+// 成员多兼容成员少
+
+// 函数兼容性
+// 参数少兼容参数多与上面两种不同
+type F1 = (a: number) => void
+type F2 = (a: number, b: number) => void
+let f1: F1
+let f2: F2 = f1
+// 返回值类型只要考虑返回值本身即可
+
+// 交叉类型（&）：功能类似于接口继承（extends），用于组合多个类型为一个类型（常用于对象类型）
+interface P5 { name: string }
+interface P6 { age: number }
+// type PersonDetail = P5 & P6
+let obj4: P5 & P6 = {
+    name: "zhang",
+    age: 18
+}
+
+/** 泛型<>
+ * 函数与多种类型一起工作
+ */
+// 创建泛型函数
+function id<Type>(value: Type): Type { return value }
+id<number>(10)
+id(10)
+// 约束-限定具体类型
+function aLength<Type>(value: Type[]) { return value.length }
+aLength(['10'])
+// 添加约束
+interface BLength { length: number }
+function id3<T extends BLength>(value: T): T { return value }
+id3([0])
+// 多个泛型变量
+function getProp<Type, Key extends keyof Type>(obj: Type, key: Key) { return obj[key] }
+getProp({ a: "00" }, 'a')
+getProp(['0'], 'concat')
+getProp(18, 'valueOf')
+/** 泛型接口
+ * 对全部成员可见
+ * 使用必须显式命名 
+ * */
+interface IdFunc<T> {
+    id: (value: T) => T
+    ids: () => T[]
+}
+let obj5: IdFunc<number> = {
+    id: (v) => v,
+    ids: () => [1]
+}
+/**泛型类
+ * 
+ */
+class GenericNumber<T>{
+    defaultValue: T
+    add: (z: TemplateStringsArray, y: T) => T
+    constructor(value: T) {
+
+    }
+}
+const myNum = new GenericNumber<number>(100)
+myNum.defaultValue = 10
+/**工具类型
+ * Partial<T> 可选属性
+ * Readonly<T> 只读属性
+ * Pick<T,''|''> 选择
+ * Record<'',number> 新建属性类型相同的对象
+ * [key: string]:number索引签名类型
+ * [key in T]映射类型 基于旧的类型创建新的类型 只能在类型别名中使用，不可以在接口里使用
+ * [Key in keyof T] 根据对象类型创新新的类型
+ *  */
+interface Props {
+    id: number
+    childern: number[]
+}
+type PartialProps = Partial<Props>
+let p7: PartialProps = {}
+
+type ReadonlyProps = Readonly<Props>
+let p8: ReadonlyProps = { id: 2, childern: [11] }
+// p8.id = 1 报错
+
+type PickProps = Pick<Props, 'id'>
+let p9: PickProps = { id: 2 }
+
+
+type RecordProps = Record<'id' | 'b', number[]>
+let p10: RecordProps = { id: [1], b: [] }
+
+interface AnyObject { [key: string]: number }
+let obj6: AnyObject = { a: 100 }
+
+type PropsKeys = 'x' | 'y' | 'z'
+type Type2 = { [Key in PropsKeys]: number }
+let obj7: Type2 = { x: 1, y: 2, z: 3 }
+type Type3 = { [key in keyof Type2]: string }
