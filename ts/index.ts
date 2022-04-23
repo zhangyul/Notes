@@ -367,3 +367,7 @@ type PropsKeys = 'x' | 'y' | 'z'
 type Type2 = { [Key in PropsKeys]: number }
 let obj7: Type2 = { x: 1, y: 2, z: 3 }
 type Type3 = { [key in keyof Type2]: string }
+
+// 类型声明文件
+import { Props1 } from "./type"
+const p11: Props1 = { x: 1, y: "100" }
