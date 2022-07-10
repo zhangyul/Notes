@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
+/**
+ * 函数组件：
+ *
+ * 属性的默认值(defaultProps)
+ */
+type Props = { name: string; age?: number };
+const Hello: FC<Props> = ({ name, age = 18 }) => (
+  <div>
+    我叫{name},今年{age}岁
+  </div>
+);
+// 设置默认值
+// Hello.defaultProps = { age: 27 };
+const App = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(e.currentTarget);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Hello name="zhang" />
+      <button onClick={handleClick}>点击</button>
     </div>
   );
-}
+};
 
 export default App;
