@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Css 动画demo - 过山车</title>
+</head>
+
+<body>
+    <style>
+        .cart {
+            background-color: rgb(100, 210, 128);
+            height: 50px;
+            width: 50px;
+            border: 1px solid black;
+            border-radius: 50px;
+            position: absolute;
+            left: 10vw;
+            top: 30vh;
+            animation: x 4s linear forwards,
+                y 4s cubic-bezier(0.55, 0, 0.2, -5000) forwards, x2 0.5s linear forwards,
+                pointOfCircle 0s linear forwards, loop 3s linear forwards,
+                x3 1s linear forwards;
+            animation-delay: 0s, 0s, 4s, 4.5s, 4.5s, 7.5s;
+        }
+
+        @keyframes x {
+            to {
+                left: 40vw;
+            }
+        }
+
+        @keyframes y {
+            to {
+                top: 29.99vh;
+            }
+        }
+
+        @keyframes x2 {
+            to {
+                left: 50vw;
+            }
+        }
+
+        @keyframes pointOfCircle {
+            to {
+                top: 20vh;
+            }
+        }
+
+        @keyframes loop {
+            from {
+                transform: rotate(0deg) translateY(10vh) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(-360deg) translateY(10vh) rotate(360deg);
+            }
+        }
+
+        @keyframes x3 {
+            to {
+                left: 70vw;
+            }
+        }
+    </style>
+    <div id="the-cart" class="cart"></div>
+
+</body>
+
+</html>
